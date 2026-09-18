@@ -3,468 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Letter For You ✉️</title>
-    <!-- Canvas Confetti & Google Fonts -->
+    <title>You're Invited to Movie Night! 🍿🎬</title>
+    <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
-
     <style>
         :root {
-            --pink-bg: #fce4ec;
-            --pink-card: #f8bbd0;
-            --pink-accent: #ff4081;
-            --pink-dark: #c2185b;
-            --text-color: #4a148c;
+            --bg-color: #0f0f12;
+            --card-bg: #1a1a24;
+            --accent-color: #ff3366;
+            --accent-hover: #e02855;
+            --text-color: #ffffff;
+            --subtext-color: #a0a0b0;
+            --input-bg: #252535;
         }
 
         body {
-            font-family: 'Fredoka', sans-serif;
-            background-color: #f8c8d8;
-            background-image: radial-gradient(#fff 15%, transparent 16%);
-            background-size: 20px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #4a2c3d;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #2a2a3a;
             box-sizing: border-box;
         }
 
-        .phone-card {
-            width: 100%;
-            max-width: 380px;
-            background: #fff0f5;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
-            padding: 25px 20px;
+        .header {
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 4px solid #fff;
         }
 
-        .header-tag {
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: #b3738b;
-            text-transform: uppercase;
+        .header img {
+            width: 100%;
+            max-width: 280px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
             margin-bottom: 15px;
         }
 
-        .cat-img {
-            width: 130px;
-            height: auto;
-            margin-bottom: 10px;
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 5px;
         }
 
-        /* Step 1: Envelope */
-        .envelope-wrapper {
-            cursor: pointer;
-            padding: 20px 0;
-        }
-        .envelope {
-            width: 220px;
-            height: 140px;
-            background: #ffa4b6;
-            margin: 0 auto;
-            border-radius: 10px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .envelope:hover {
-            transform: scale(1.03);
-        }
-        .stamp {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            background: #fff;
-            padding: 4px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .section-title {
+            font-size: 1.1rem;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 4px;
         }
 
-        /* Step 2: Scratch Card */
-        .scratch-container {
-            position: relative;
-            width: 280px;
-            height: 110px;
-            margin: 0 auto 15px auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        .scratch-reveal {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        canvas#scratchCanvas {
-            position: absolute;
-            top: 0; left: 0;
-            cursor: pointer;
-            z-index: 2;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        /* Question Buttons */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
-            position: relative;
-            min-height: 50px;
-        }
-        .btn {
-            background: #ff5c8d;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 92, 141, 0.3);
-            transition: all 0.2s;
-        }
-        .btn-no {
-            background: #e0a3b5;
+        label.field-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--subtext-color);
         }
 
-        /* Inputs */
-        .input-group {
-            margin: 15px 0;
-            text-align: left;
-        }
-        .input-group label {
-            font-size: 0.85rem;
-            color: #8c5369;
-            margin-left: 5px;
-        }
-        input[type="date"], input[type="time"] {
+        input[type="text"], input[type="date"], input[type="time"], select {
             width: 100%;
             padding: 12px;
-            border-radius: 12px;
-            border: 2px solid #ffd1dc;
-            background: #fff;
-            font-family: 'Fredoka', sans-serif;
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: #fff;
+            border: 1px solid #3a3a4a;
+            font-size: 1rem;
             box-sizing: border-box;
-            margin-top: 5px;
         }
 
-        /* Activity Grid */
-        .activity-grid {
+        /* Movie Type Grid */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .card-option {
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .card-option img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-option input[type="radio"] {
+            display: none;
+        }
+
+        .card-option:has(input:checked) {
+            border-color: var(--accent-color);
+            background: #322538;
+        }
+
+        /* Radio Group for Day / Night */
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-btn {
+            flex: 1;
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .radio-btn input {
+            display: none;
+        }
+
+        .radio-btn:has(input:checked) {
+            border-color: var(--accent-color);
+            background: #322538;
+        }
+
+        /* Snacks Checklist */
+        .checklist {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 15px 0;
+            gap: 10px;
         }
-        .activity-card {
-            background: white;
-            border: 2px solid #ffe1e9;
-            border-radius: 15px;
-            padding: 12px 8px;
+
+        .check-item {
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        .activity-card.selected {
-            border-color: #ff5c8d;
-            background: #fff0f5;
-            transform: scale(1.03);
-        }
-        .activity-card img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
         }
 
-        /* Ticket Design */
-        .ticket {
-            background: #fff;
-            border: 2px dashed #ff85a2;
-            border-radius: 15px;
+        .check-item input {
+            accent-color: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-hover);
+        }
+
+        #confirmation-message {
+            display: none;
+            text-align: center;
             padding: 20px;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            position: relative;
         }
-        .ticket-title {
-            font-family: 'Sacramento', cursive;
-            font-size: 2.2rem;
-            color: #ff5c8d;
-            margin: 0;
-        }
-
-        .step { display: none; }
-        .step.active { display: block; }
     </style>
 </head>
 <body>
 
-<div class="phone-card">
-    <div class="header-tag">A Letter For You</div>
-
-    <!-- STEP 1: ENVELOPE -->
-    <div id="step1" class="step active">
-        <div class="envelope-wrapper" onclick="goToStep(2)">
-            <div class="envelope">
-                <div class="stamp">MAY 18 💌</div>
-                <div style="font-family: 'Sacramento', cursive; font-size: 2.2rem; color: white;">By Hand Only</div>
-            </div>
-        </div>
-        <p style="color: #a0637c; font-size: 0.9rem;">Tap to open ✨</p>
-    </div>
-
-    <!-- STEP 2: SCRATCH CARD -->
-    <div id="step2" class="step">
-        <img class="cat-img" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Cute Cat">
-        <div class="scratch-container">
-            <div class="scratch-reveal">
-                <p style="margin: 0; font-size: 0.85rem; color: #b3738b;">There's something I want to ask...</p>
-                <h3 style="margin: 5px 0 0 0; color: #ff5c8d;">Will you go on a date with me?</h3>
-            </div>
-            <canvas id="scratchCanvas" width="280" height="110"></canvas>
-        </div>
-        <div id="scratchPrompt" style="font-size: 0.85rem; color: #b3738b;">Scratch to reveal! 👆</div>
-    </div>
-
-    <!-- STEP 3: QUESTION & NO BUTTON DODGE -->
-    <div id="step3" class="step">
-        <img class="cat-img" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Cute Cat">
-        <p style="font-size: 0.9rem; color: #a0637c; margin-bottom: 5px;">There's something I want to ask...</p>
-        <h2 style="color: #ff5c8d; margin-top: 0;">Want to go on a date with me?</h2>
-        
-        <div class="btn-group">
-            <button class="btn" onclick="goToStep(4)">Yes 💕</button>
-            <button class="btn btn-no" id="noBtn" onclick="handleNoClick()">No</button>
-        </div>
-    </div>
-
-    <!-- STEP 4: YES CONFIRMATION -->
-    <div id="step4" class="step">
-        <img class="cat-img" src="https://cdn-icons-png.flaticon.com/512/616/616554.png" alt="Happy Cat">
-        <h2 style="color: #ff5c8d;">Wait, did you actually just say yes? 🥺</h2>
-        <p style="color: #a0637c; font-size: 0.9rem;">I really thought you'd say no!</p>
-        <button class="btn" onclick="goToStep(5)" style="margin-top: 15px;">Yes, yes, YES! 💖</button>
-    </div>
-
-    <!-- STEP 5: DATE & TIME PICKER -->
-    <div id="step5" class="step">
-        <img class="cat-img" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Cat">
-        <h3 style="color: #ff5c8d; margin-bottom: 5px;">When works for you?</h3>
-        <p style="color: #a0637c; font-size: 0.85rem; margin-top: 0;">Pick a day and time, I'll fit around it.</p>
-
-        <div class="input-group">
-            <label>DATE</label>
-            <input type="date" id="datePicker">
-        </div>
-        <div class="input-group">
-            <label>TIME</label>
-            <input type="time" id="timePicker">
+<div class="container">
+    <div id="invitation-form">
+        <!-- Hero Section with reliable Unsplash Cinema Popcorn Image -->
+        <div class="header">
+            <img src="https://images.unsplash.com/photo-1585647347384-2593bc35786b?w=600" alt="Popcorn Cinema">
+            <h1>Invited to a Movie Night! 🍿🎬</h1>
+            <p style="color: var(--subtext-color);">Help me plan our ultimate movie date.</p>
         </div>
 
-        <button class="btn" onclick="saveDateTimeAndNext()" style="width: 100%; margin-top: 10px;">Next ✨</button>
-    </div>
-
-    <!-- STEP 6: ACTIVITIES SELECTION -->
-    <div id="step6" class="step">
-        <h3 style="color: #ff5c8d; margin-bottom: 5px;">What should we do?</h3>
-        <p style="color: #a0637c; font-size: 0.85rem; margin-top: 0;">Pick whatever you feel like doing.</p>
-
-        <div class="activity-grid">
-            <div class="activity-card" onclick="toggleActivity(this, 'Movie 🍿')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3163/3163478.png" alt="Movie">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Movie</div>
-            </div>
-            <div class="activity-card" onclick="toggleActivity(this, 'Park 🌳')">
-                <img src="https://cdn-icons-png.flaticon.com/512/489/489868.png" alt="Park">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Park</div>
-            </div>
-            <div class="activity-card" onclick="toggleActivity(this, 'Coffee shop ☕')">
-                <img src="https://cdn-icons-png.flaticon.com/512/751/751621.png" alt="Coffee">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Coffee shop</div>
-            </div>
-            <div class="activity-card" onclick="toggleActivity(this, 'Restaurant 🍽️')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3448/3448609.png" alt="Restaurant">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Restaurant</div>
-            </div>
-            <div class="activity-card" onclick="toggleActivity(this, 'Bowling 🎳')">
-                <img src="https://cdn-icons-png.flaticon.com/512/2907/2907314.png" alt="Bowling">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Bowling</div>
-            </div>
-            <div class="activity-card" onclick="toggleActivity(this, 'Picnic 🧺')">
-                <img src="https://cdn-icons-png.flaticon.com/512/2913/2913493.png" alt="Picnic">
-                <div style="font-size: 0.85rem; margin-top: 5px;">Picnic</div>
-            </div>
-        </div>
-
-        <button class="btn" id="finalNextBtn" onclick="generateTicketAndSendWhatsApp()" style="width: 100%;">Next ✨</button>
-    </div>
-
-    <!-- STEP 7: FINAL TICKET -->
-    <div id="step7" class="step">
-        <div class="ticket">
-            <p style="font-size: 0.75rem; letter-spacing: 1px; color: #aaa; margin: 0;">ADMIT TWO</p>
-            <h1 class="ticket-title">Date Ticket</h1>
+        <form id="movieForm">
             
-            <div style="display: flex; justify-content: space-around; margin: 15px 0; font-size: 0.9rem;">
-                <div>
-                    <strong style="color: #ff5c8d; display: block; font-size: 0.75rem;">DATE</strong>
-                    <span id="ticketDate">-</span>
-                </div>
-                <div>
-                    <strong style="color: #ff5c8d; display: block; font-size: 0.75rem;">TIME</strong>
-                    <span id="ticketTime">-</span>
-                </div>
+            <!-- Web3Forms Access Key Hidden Field -->
+            <input type="hidden" name="access_key" value="2305fdfc-ac87-41be-99a9-bc5584b78203">
+            <input type="hidden" name="subject" value="New Movie Date RSVP Received! 🍿">
+
+            <!-- 1. Movie Type -->
+            <div class="section-title">1. Movie Type (Genre)</div>
+            <div class="grid-options">
+                <label class="card-option">
+                    <input type="radio" name="Movie Genre" value="Comedy" required>
+                    <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400" alt="Comedy">
+                    <p><strong>Comedy 🎭</strong></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="Movie Genre" value="Horror">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" alt="Horror">
+                    <p><strong>Horror 👻</strong></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="Movie Genre" value="Romantic">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Romance">
+                    <p><strong>Romance 💕</strong></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="Movie Genre" value="Action / Sci-Fi">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Action">
+                    <p><strong>Action 🚀</strong></p>
+                </label>
             </div>
 
-            <div style="border-top: 1px dashed #ffd1dc; padding-top: 10px; margin-top: 10px;">
-                <strong style="color: #ff5c8d; font-size: 0.75rem; display: block;">TONIGHT'S PLAN</strong>
-                <span id="ticketPlan" style="font-size: 0.85rem;">-</span>
+            <!-- 2. Movie Name -->
+            <div class="section-title">2. Movie Name</div>
+            <div class="form-group">
+                <label class="field-label">Which movie would you like to watch?</label>
+                <input type="text" name="Movie Name" placeholder="e.g. Inception, Stree 2, Avatar..." required>
             </div>
-        </div>
 
-        <h3 style="color: #ff5c8d; margin-top: 20px;">It's official, we have a date! 🎉</h3>
-        <p style="color: #a0637c; font-size: 0.85rem;">Your ticket's right here, I've got the rest.</p>
-        <button class="btn" onclick="sendWhatsAppNow()" style="margin-top: 10px; width: 100%;">Send Confirmation on WhatsApp 💬</button>
+            <!-- 3. Day or Night -->
+            <div class="section-title">3. Day or Night Show?</div>
+            <div class="radio-group">
+                <label class="radio-btn">
+                    <input type="radio" name="Show Timing" value="Day Show ☀️" required>
+                    ☀️ Day Show
+                </label>
+                <label class="radio-btn">
+                    <input type="radio" name="Show Timing" value="Night Show 🌙">
+                    🌙 Night Show
+                </label>
+            </div>
+
+            <!-- 4. Date & Time -->
+            <div class="section-title">4. Date & Time</div>
+            <div class="form-group">
+                <label class="field-label">Select Date:</label>
+                <input type="date" name="Preferred Date" required>
+            </div>
+            <div class="form-group">
+                <label class="field-label">Select Time:</label>
+                <input type="time" name="Preferred Time" required>
+            </div>
+
+            <!-- 5. Snacks Checklist -->
+            <div class="section-title">5. Snack List 🍿</div>
+            <div class="checklist">
+                <label class="check-item">
+                    <input type="checkbox" class="snack-check" name="Snack: Popcorn" value="Yes"> Popcorn 🍿
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" class="snack-check" name="Snack: Nachos" value="Yes"> Nachos 🧀
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" class="snack-check" name="Snack: Drinks" value="Yes"> Drinks 🥤
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" class="snack-check" name="Snack: Candy" value="Yes"> Candy 🍬
+                </label>
+                <label class="check-item" style="grid-column: span 2; background: #382525;">
+                    <input type="checkbox" id="skipSnacks" name="Skip Snacks" value="Yes"> Skip Snacks ❌
+                </label>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">Confirm & Send RSVP! ✨</button>
+        </form>
+    </div>
+
+    <!-- Confirmation Success Screen -->
+    <div id="confirmation-message">
+        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600" alt="Celebration" style="width: 100%; border-radius: 12px; margin-bottom: 15px;">
+        <h2>It's a Date! 🎉</h2>
+        <p style="color: var(--subtext-color);">Your choices have been sent successfully. Get ready for a great movie night!</p>
     </div>
 </div>
 
 <script>
-    let selectedActivities = [];
-    let noClickCount = 0;
-    const noPrompts = ["Are you sure?", "Really?", "Think again?", "Last chance 🥺"];
-    let savedDate = "";
-    let savedTime = "";
+    // Handle Skip Snacks option logic
+    const skipCheckbox = document.getElementById('skipSnacks');
+    const snackCheckboxes = document.querySelectorAll('.snack-check');
 
-    function goToStep(stepNum) {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('step' + stepNum).classList.add('active');
-
-        if (stepNum === 2) {
-            initScratchCanvas();
-        }
-        if (stepNum === 4 || stepNum === 7) {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        }
-    }
-
-    // Scratch Pad Canvas Logic
-    function initScratchCanvas() {
-        const canvas = document.getElementById('scratchCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ff5c8d';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.font = '16px Fredoka';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText('Scratch me ✨', canvas.width / 2, canvas.height / 2 + 5);
-
-        let isScratching = false;
-
-        function scratch(e) {
-            if (!isScratching) return;
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
-
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(x, y, 18, 0, Math.PI * 2);
-            ctx.fill();
-
-            setTimeout(() => {
-                goToStep(3);
-            }, 3000);
-        }
-
-        canvas.addEventListener('mousedown', () => isScratching = true);
-        canvas.addEventListener('mouseup', () => isScratching = false);
-        canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchstart', () => isScratching = true);
-        canvas.addEventListener('touchend', () => isScratching = false);
-        canvas.addEventListener('touchmove', scratch);
-    }
-
-    // Dodging/Shrinking No Button
-    function handleNoClick() {
-        const noBtn = document.getElementById('noBtn');
-        if (noClickCount < noPrompts.length) {
-            noBtn.textContent = noPrompts[noClickCount];
-            noClickCount++;
-            noBtn.style.transform = `scale(${1 - noClickCount * 0.15})`;
+    skipCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            snackCheckboxes.forEach(cb => {
+                cb.checked = false;
+                cb.disabled = true;
+            });
         } else {
-            noBtn.style.display = 'none';
+            snackCheckboxes.forEach(cb => {
+                cb.disabled = false;
+            });
         }
-    }
+    });
 
-    // Date & Time Save
-    function saveDateTimeAndNext() {
-        savedDate = document.getElementById('datePicker').value;
-        savedTime = document.getElementById('timePicker').value;
+    snackCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (this.checked) {
+                skipCheckbox.checked = false;
+            }
+        });
+    });
 
-        if (!savedDate || !savedTime) {
-            alert('Please select both date and time! 💕');
-            return;
+    // Form submission directly to Web3Forms API
+    const form = document.getElementById('movieForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Update button status
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
+
+        // Launch Confetti
+        confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 }
+        });
+
+        // Submit to Web3Forms API
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Show Success Screen on Website
+                document.getElementById('invitation-form').style.display = 'none';
+                document.getElementById('confirmation-message').style.display = 'block';
+            } else {
+                alert("Something went wrong. Please try again.");
+                submitBtn.textContent = "Confirm & Send RSVP! ✨";
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            alert("Network error. Please try again.");
+            submitBtn.textContent = "Confirm & Send RSVP! ✨";
+            submitBtn.disabled = false;
         }
-
-        document.getElementById('ticketDate').textContent = savedDate;
-        document.getElementById('ticketTime').textContent = savedTime;
-
-        goToStep(6);
-    }
-
-    // Toggle Activities
-    function toggleActivity(card, name) {
-        card.classList.toggle('selected');
-        if (selectedActivities.includes(name)) {
-            selectedActivities = selectedActivities.filter(a => a !== name);
-        } else {
-            selectedActivities.push(name);
-        }
-    }
-
-    // Open WhatsApp Chat directly with all inputs prefilled
-    function sendWhatsAppNow() {
-        const myPhone = "919738494534";
-        const planText = selectedActivities.join(', ');
-        const message = `Hey! 💖 I said YES to our date!\n\n📅 *Date:* ${savedDate}\n⏰ *Time:* ${savedTime}\n✨ *Our Plan:* ${planText}`;
-        
-        window.location.href = `https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`;
-    }
-
-    function generateTicketAndSendWhatsApp() {
-        if (selectedActivities.length === 0) {
-            alert('Pick at least one activity! 💖');
-            return;
-        }
-
-        const planText = selectedActivities.join(', ');
-        document.getElementById('ticketPlan').textContent = planText;
-
-        goToStep(7);
-        
-        // Auto launch WhatsApp after displaying ticket
-        setTimeout(() => {
-            sendWhatsAppNow();
-        }, 1200);
-    }
+    });
 </script>
 
 </body>
