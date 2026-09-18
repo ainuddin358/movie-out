@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Night Invitation! 🍿🎬</title>
+    <title>You're Invited to Movie Night! 🍿🎬</title>
+    <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg-color: #0f0f12;
             --card-bg: #1a1a24;
-            --accent-color: #e50914;
-            --accent-hover: #b81d24;
+            --accent-color: #ff3366;
+            --accent-hover: #e02855;
             --text-color: #ffffff;
             --subtext-color: #a0a0b0;
             --input-bg: #252535;
@@ -62,10 +63,32 @@
             padding-bottom: 4px;
         }
 
-        /* Movie Grid */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label.field-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--subtext-color);
+        }
+
+        input[type="text"], input[type="date"], input[type="time"], select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: #fff;
+            border: 1px solid #3a3a4a;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Movie Type Grid */
         .grid-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 12px;
         }
 
@@ -81,7 +104,7 @@
 
         .card-option img {
             width: 100%;
-            height: 140px;
+            height: 120px;
             object-fit: cover;
             border-radius: 8px;
         }
@@ -95,27 +118,29 @@
             background: #322538;
         }
 
-        /* Date & Time Inputs */
-        .form-group {
-            margin-bottom: 15px;
+        /* Radio Group for Day / Night */
+        .radio-group {
+            display: flex;
+            gap: 15px;
         }
 
-        label.field-label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-            color: var(--subtext-color);
-        }
-
-        input[type="date"], input[type="time"] {
-            width: 100%;
+        .radio-btn {
+            flex: 1;
+            background: var(--input-bg);
             padding: 12px;
             border-radius: 8px;
-            background: var(--input-bg);
-            color: #fff;
-            border: 1px solid #3a3a4a;
-            font-size: 1rem;
-            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .radio-btn input {
+            display: none;
+        }
+
+        .radio-btn:has(input:checked) {
+            border-color: var(--accent-color);
+            background: #322538;
         }
 
         /* Snacks Checklist */
@@ -164,75 +189,171 @@
 
 <div class="container">
     <div id="invitation-form">
+        <!-- Hero Section -->
         <div class="header">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3p0eGNxbnI2eXBreGk1ZTRqbnEzdW9hc3E4OHBibXNzaHZxOHptYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l378bu6ZYfQ5nZ2V2/giphy.gif" alt="Cute Popcorn GIF">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3p0eGNxbnI2eXBreGk1ZTRqbnEzdW9hc3E4OHBibXNzaHZxOHptYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l378bu6ZYfQ5nZ2V2/giphy.gif" alt="Popcorn GIF">
             <h1>Invited to a Movie Night! 🍿🎬</h1>
-            <p style="color: var(--subtext-color);">Pick your favorite genre, time, and snacks!</p>
+            <p style="color: var(--subtext-color);">Help me plan our ultimate movie date.</p>
         </div>
 
         <form id="movieForm">
-            <div class="section-title">1. Choose a Genre / Movie Option</div>
+            
+            <!-- 1. Movie Type -->
+            <div class="section-title">1. Movie Type (Genre)</div>
             <div class="grid-options">
                 <label class="card-option">
-                    <input type="radio" name="movie_option" value="Comedy 🎭" required>
+                    <input type="radio" name="movie_type" value="Comedy" required>
                     <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400" alt="Comedy">
-                    <p><strong>Comedy 🎭</strong><br><small>Light & Fun</small></p>
+                    <p><strong>Comedy 🎭</strong></p>
                 </label>
                 <label class="card-option">
-                    <input type="radio" name="movie_option" value="Horror 👻">
+                    <input type="radio" name="movie_type" value="Horror">
                     <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" alt="Horror">
-                    <p><strong>Horror 👻</strong><br><small>Scream Together</small></p>
+                    <p><strong>Horror 👻</strong></p>
                 </label>
                 <label class="card-option">
-                    <input type="radio" name="movie_option" value="Sci-Fi / Action 🚀">
-                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Sci-Fi">
-                    <p><strong>Sci-Fi 🚀</strong><br><small>Mind-Bending</small></p>
+                    <input type="radio" name="movie_type" value="Romantic">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Romance">
+                    <p><strong>Romance 💕</strong></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="movie_type" value="Action / Sci-Fi">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Action">
+                    <p><strong>Action 🚀</strong></p>
                 </label>
             </div>
 
-            <div class="section-title">2. Choose Date & Time</div>
+            <!-- 2. Movie Name -->
+            <div class="section-title">2. Movie Name</div>
             <div class="form-group">
-                <label class="field-label">Date:</label>
-                <input type="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label class="field-label">Time:</label>
-                <input type="time" name="time" required>
+                <label class="field-label">Which movie would you like to watch?</label>
+                <input type="text" name="movie_name" placeholder="e.g. Inception, Stree 2, Avatar..." required>
             </div>
 
-            <div class="section-title">3. Snack Menu Checklist 🍿</div>
+            <!-- 3. Day or Night -->
+            <div class="section-title">3. Day or Night Show?</div>
+            <div class="radio-group">
+                <label class="radio-btn">
+                    <input type="radio" name="day_night" value="Day Show ☀️" required>
+                    ☀️ Day Show
+                </label>
+                <label class="radio-btn">
+                    <input type="radio" name="day_night" value="Night Show 🌙">
+                    🌙 Night Show
+                </label>
+            </div>
+
+            <!-- 4. Date & Time -->
+            <div class="section-title">4. Date & Time</div>
+            <div class="form-group">
+                <label class="field-label">Select Date:</label>
+                <input type="date" name="movie_date" required>
+            </div>
+            <div class="form-group">
+                <label class="field-label">Select Time:</label>
+                <input type="time" name="movie_time" required>
+            </div>
+
+            <!-- 5. Snacks Checklist -->
+            <div class="section-title">5. Snack List 🍿</div>
             <div class="checklist">
                 <label class="check-item">
-                    <input type="checkbox" name="snack" value="Popcorn 🍿"> Popcorn 🍿
+                    <input type="checkbox" class="snack-check" name="snack" value="Popcorn 🍿"> Popcorn 🍿
                 </label>
                 <label class="check-item">
-                    <input type="checkbox" name="snack" value="Candy 🍬"> Candy 🍬
+                    <input type="checkbox" class="snack-check" name="snack" value="Nachos 🧀"> Nachos 🧀
                 </label>
                 <label class="check-item">
-                    <input type="checkbox" name="snack" value="Nachos 🧀"> Nachos 🧀
+                    <input type="checkbox" class="snack-check" name="snack" value="Drinks / Soda 🥤"> Drinks 🥤
                 </label>
                 <label class="check-item">
-                    <input type="checkbox" name="snack" value="Drinks 🥤"> Drinks 🥤
+                    <input type="checkbox" class="snack-check" name="snack" value="Candy / Chocolates 🍬"> Candy 🍬
+                </label>
+                <label class="check-item" style="grid-column: span 2; background: #382525;">
+                    <input type="checkbox" id="skipSnacks" name="snack_skip" value="Skip Snacks"> Skip Snacks ❌
                 </label>
             </div>
 
-            <button type="submit" class="btn-submit">Confirm Choices ✨</button>
+            <button type="submit" class="btn-submit">Confirm & Send on WhatsApp! ✨</button>
         </form>
     </div>
 </div>
 
 <script>
+    // Handle Skip Snacks option logic
+    const skipCheckbox = document.getElementById('skipSnacks');
+    const snackCheckboxes = document.querySelectorAll('.snack-check');
+
+    skipCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            snackCheckboxes.forEach(cb => {
+                cb.checked = false;
+                cb.disabled = true;
+            });
+        } else {
+            snackCheckboxes.forEach(cb => {
+                cb.disabled = false;
+            });
+        }
+    });
+
+    snackCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (this.checked) {
+                skipCheckbox.checked = false;
+            }
+        });
+    });
+
+    // Form submission & direct WhatsApp redirect
     document.getElementById('movieForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
         // Confetti explosion
         confetti({
-            particleCount: 100,
-            spread: 70,
+            particleCount: 120,
+            spread: 80,
             origin: { y: 0.6 }
         });
 
-        alert("Preferences saved! Get ready for a great movie night. 🎉");
+        // Gather form fields
+        const form = e.target;
+        const movieType = form.querySelector('input[name="movie_type"]:checked')?.value || 'Not specified';
+        const movieName = form.querySelector('input[name="movie_name"]').value;
+        const dayNight = form.querySelector('input[name="day_night"]:checked')?.value || 'Not specified';
+        const date = form.querySelector('input[name="movie_date"]').value;
+        const time = form.querySelector('input[name="movie_time"]').value;
+
+        // Process Snacks Selection
+        let snacksText = "";
+        if (skipCheckbox.checked) {
+            snacksText = "Skipped snacks ❌";
+        } else {
+            const selectedSnacks = Array.from(snackCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+            
+            snacksText = selectedSnacks.length > 0 ? selectedSnacks.join(', ') : 'None selected';
+        }
+
+        // Prepare full WhatsApp message
+        const message = `Hey! 🎬 Here are my choices for our Movie Date:\n\n` +
+                        `🎭 *Movie Type:* ${movieType}\n` +
+                        `🎬 *Movie Name:* ${movieName}\n` +
+                        `☀️/🌙 *Timing:* ${dayNight}\n` +
+                        `📅 *Date:* ${date}\n` +
+                        `⏰ *Time:* ${time}\n` +
+                        `🍿 *Snacks:* ${snacksText}`;
+
+        // Your registered WhatsApp number
+        const myPhoneNumber = "919738494534"; 
+
+        // Redirect to WhatsApp chat URL
+        const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(message)}`;
+        
+        setTimeout(() => {
+            window.location.href = whatsappUrl;
+        }, 1200);
     });
 </script>
 
