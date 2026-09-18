@@ -1,1 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Night Invitation! 🍿🎬</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f0f12;
+            --card-bg: #1a1a24;
+            --accent-color: #e50914;
+            --accent-hover: #b81d24;
+            --text-color: #ffffff;
+            --subtext-color: #a0a0b0;
+            --input-bg: #252535;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #2a2a3a;
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        /* Movie Grid */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .card-option {
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .card-option img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-option input[type="radio"] {
+            display: none;
+        }
+
+        .card-option:has(input:checked) {
+            border-color: var(--accent-color);
+            background: #322538;
+        }
+
+        /* Date & Time Inputs */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label.field-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--subtext-color);
+        }
+
+        input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: #fff;
+            border: 1px solid #3a3a4a;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Snacks Checklist */
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .check-item {
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .check-item input {
+            accent-color: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="invitation-form">
+        <div class="header">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3p0eGNxbnI2eXBreGk1ZTRqbnEzdW9hc3E4OHBibXNzaHZxOHptYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l378bu6ZYfQ5nZ2V2/giphy.gif" alt="Cute Popcorn GIF">
+            <h1>Invited to a Movie Night! 🍿🎬</h1>
+            <p style="color: var(--subtext-color);">Pick your favorite genre, time, and snacks!</p>
+        </div>
+
+        <form id="movieForm">
+            <div class="section-title">1. Choose a Genre / Movie Option</div>
+            <div class="grid-options">
+                <label class="card-option">
+                    <input type="radio" name="movie_option" value="Comedy 🎭" required>
+                    <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400" alt="Comedy">
+                    <p><strong>Comedy 🎭</strong><br><small>Light & Fun</small></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="movie_option" value="Horror 👻">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" alt="Horror">
+                    <p><strong>Horror 👻</strong><br><small>Scream Together</small></p>
+                </label>
+                <label class="card-option">
+                    <input type="radio" name="movie_option" value="Sci-Fi / Action 🚀">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Sci-Fi">
+                    <p><strong>Sci-Fi 🚀</strong><br><small>Mind-Bending</small></p>
+                </label>
+            </div>
+
+            <div class="section-title">2. Choose Date & Time</div>
+            <div class="form-group">
+                <label class="field-label">Date:</label>
+                <input type="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label class="field-label">Time:</label>
+                <input type="time" name="time" required>
+            </div>
+
+            <div class="section-title">3. Snack Menu Checklist 🍿</div>
+            <div class="checklist">
+                <label class="check-item">
+                    <input type="checkbox" name="snack" value="Popcorn 🍿"> Popcorn 🍿
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" name="snack" value="Candy 🍬"> Candy 🍬
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" name="snack" value="Nachos 🧀"> Nachos 🧀
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" name="snack" value="Drinks 🥤"> Drinks 🥤
+                </label>
+            </div>
+
+            <button type="submit" class="btn-submit">Confirm Choices ✨</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('movieForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Confetti explosion
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        alert("Preferences saved! Get ready for a great movie night. 🎉");
+    });
+</script>
+
+</body>
+</html>
