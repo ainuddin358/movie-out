@@ -219,15 +219,6 @@
 <div class="phone-card">
     <div class="header-tag">A Letter For You</div>
 
-    <!-- Hidden Web3Forms Notification Form -->
-    <form id="rsvpForm">
-        <input type="hidden" name="access_key" value="2305fdfc-ac87-41be-99a9-bc5584b78203">
-        <input type="hidden" name="subject" value="New Date RSVP Confirmed! 💕">
-        <input type="hidden" id="formDate" name="Date">
-        <input type="hidden" id="formTime" name="Time">
-        <input type="hidden" id="formActivities" name="Activities">
-    </form>
-
     <!-- STEP 1: ENVELOPE -->
     <div id="step1" class="step active">
         <div class="envelope-wrapper" onclick="goToStep(2)">
@@ -322,7 +313,7 @@
             </div>
         </div>
 
-        <button class="btn" onclick="generateTicket()" style="width: 100%;">Next ✨</button>
+        <button class="btn" id="finalNextBtn" onclick="generateTicketAndSendWhatsApp()" style="width: 100%;">Next ✨</button>
     </div>
 
     <!-- STEP 7: FINAL TICKET -->
@@ -350,6 +341,7 @@
 
         <h3 style="color: #ff5c8d; margin-top: 20px;">It's official, we have a date! 🎉</h3>
         <p style="color: #a0637c; font-size: 0.85rem;">Your ticket's right here, I've got the rest.</p>
+        <button class="btn" onclick="sendWhatsAppNow()" style="margin-top: 10px; width: 100%;">Send Confirmation on WhatsApp 💬</button>
     </div>
 </div>
 
@@ -357,6 +349,8 @@
     let selectedActivities = [];
     let noClickCount = 0;
     const noPrompts = ["Are you sure?", "Really?", "Think again?", "Last chance 🥺"];
+    let savedDate = "";
+    let savedTime = "";
 
     function goToStep(stepNum) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -395,7 +389,6 @@
             ctx.arc(x, y, 18, 0, Math.PI * 2);
             ctx.fill();
 
-            // Auto advance after scratching enough
             setTimeout(() => {
                 goToStep(3);
             }, 3000);
@@ -423,18 +416,16 @@
 
     // Date & Time Save
     function saveDateTimeAndNext() {
-        const date = document.getElementById('datePicker').value;
-        const time = document.getElementById('timePicker').value;
+        savedDate = document.getElementById('datePicker').value;
+        savedTime = document.getElementById('timePicker').value;
 
-        if (!date || !time) {
+        if (!savedDate || !savedTime) {
             alert('Please select both date and time! 💕');
             return;
         }
 
-        document.getElementById('formDate').value = date;
-        document.getElementById('formTime').value = time;
-        document.getElementById('ticketDate').textContent = date;
-        document.getElementById('ticketTime').textContent = time;
+        document.getElementById('ticketDate').textContent = savedDate;
+        document.getElementById('ticketTime').textContent = savedTime;
 
         goToStep(6);
     }
@@ -449,27 +440,30 @@
         }
     }
 
-    // Generate Ticket & Submit Web3Forms Notification
-    async function generateTicket() {
+    // Open WhatsApp Chat directly with all inputs prefilled
+    function sendWhatsAppNow() {
+        const myPhone = "919738494534";
+        const planText = selectedActivities.join(', ');
+        const message = `Hey! 💖 I said YES to our date!\n\n📅 *Date:* ${savedDate}\n⏰ *Time:* ${savedTime}\n✨ *Our Plan:* ${planText}`;
+        
+        window.location.href = `https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`;
+    }
+
+    function generateTicketAndSendWhatsApp() {
         if (selectedActivities.length === 0) {
             alert('Pick at least one activity! 💖');
             return;
         }
 
         const planText = selectedActivities.join(', ');
-        document.getElementById('formActivities').value = planText;
         document.getElementById('ticketPlan').textContent = planText;
 
-        // Submit form directly to your email via Web3Forms
-        const form = document.getElementById('rsvpForm');
-        const formData = new FormData(form);
-
-        fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            body: formData
-        });
-
         goToStep(7);
+        
+        // Auto launch WhatsApp after displaying ticket
+        setTimeout(() => {
+            sendWhatsAppNow();
+        }, 1200);
     }
 </script>
 
